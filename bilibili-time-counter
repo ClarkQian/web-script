@@ -5,8 +5,7 @@ function show(i){
 	time_sec = parseInt(tag.text().slice(-2));
 	console.log("这个视频的时长为 " + time_min+" : "+time_sec);
 	if(time_min == 0 && time_sec == 0){
-		console.log("正在进行丢包补偿")
-		error_info.push(i);
+		console.log("正在进行丢包补偿");
 		count--;
 	}
 	sum_min += time_min;

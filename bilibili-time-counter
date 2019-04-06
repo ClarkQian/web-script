@@ -5,28 +5,31 @@ function show(i){
 	time_sec = parseInt(tag.text().slice(-2));
 	console.log("这个视频的时长为 " + time_min+" : "+time_sec);
 	if(time_min == 0 && time_sec == 0){
-
-		error++;
+		console.log("正在进行丢包补偿")
 		error_info.push(i);
+		count--;
 	}
 	sum_min += time_min;
 	sum_sec += time_sec;
 	console.log("总时长为"+parseInt((sum_min+sum_sec/60)/60)+" : "+(parseInt(sum_min+sum_sec/60)%60)+" : "+(sum_sec%60));
-	console.log("丢包数为"+error);//记录因为网页加载延迟导致的计数丢包问题的次数
 }
 
-
+var tag = 'a';
 var sum_min = 0;
 var sum_sec = 0;
 var count = 0;
 var error = 0;
-var error_info =  []
 var li = $('.list-box').find('li');
-var  n = li.length;
+
+function counter(terminal = li.length, startPoint = 0) {
 var t = setInterval(function(){
-	if(count == n){
+	if(count == 0 && startPoint != 0){
+		count = startPoint - 1;
+	}
+	if(tag == 'q')
 		clearInterval(t);
-		console.log("丢包位置数组为"+error_info);
+	if(count == terminal-1){
+		clearInterval(t);
 	}
 
 	$(li[count++]).click();
@@ -34,4 +37,9 @@ var t = setInterval(function(){
 		show(count);
 	},3000); //这个时间可以根据网络状况调节
 
-},3500);  //这个字一定要大于上面那个计时器的值。
+},3500);  //这个字一定要大于上面那个计时器的值。ar error_info =  []
+
+}
+//counter(end, start)
+counter(3, 1);
+// var li = $('.list-box').find('li');

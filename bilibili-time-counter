@@ -1,0 +1,37 @@
+function show(i){
+	var tag = $('.bilibili-player-video-time-total')
+	console.log("正在抓取第"+(i)+"个视频的时间")
+	time_min = parseInt(tag.text().slice(0,2));
+	time_sec = parseInt(tag.text().slice(-2));
+	console.log("这个视频的时长为 " + time_min+" : "+time_sec);
+	if(time_min == 0 && time_sec == 0){
+
+		error++;
+		error_info.push(i);
+	}
+	sum_min += time_min;
+	sum_sec += time_sec;
+	console.log("总时长为"+parseInt((sum_min+sum_sec/60)/60)+" : "+(parseInt(sum_min+sum_sec/60)%60)+" : "+(sum_sec%60));
+	console.log("丢包数为"+error);//记录因为网页加载延迟导致的计数丢包问题的次数
+}
+
+
+var sum_min = 0;
+var sum_sec = 0;
+var count = 0;
+var error = 0;
+var error_info =  []
+var li = $('.list-box').find('li');
+var  n = li.length;
+var t = setInterval(function(){
+	if(count == n){
+		clearInterval(t);
+		console.log("丢包位置数组为"+error_info);
+	}
+
+	$(li[count++]).click();
+	setTimeout(function () {
+		show(count);
+	},3000); //这个时间可以根据网络状况调节
+
+},3500);  //这个字一定要大于上面那个计时器的值。
